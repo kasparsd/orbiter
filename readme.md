@@ -4,7 +4,7 @@
 
 ![Screenshot of a website create with Orbiter](https://raw.github.com/kasparsd/orbiter/master/screenshot.png)
 
-->Screenshot of [a website created with Orbiter](http://konstruktors.com/articles/)<-
+Screenshot of [a website created with Orbiter](http://konstruktors.com/articles/)
 
 
 ## Author
