@@ -4,8 +4,10 @@
  * Load and verify config
  */
 
-if ( file_exists( 'config.ini' ) )
-	$config = parse_ini_file( 'config.ini' );
+$config_path = __DIR__ . DIRECTORY_SEPARATOR . 'config.ini'; 
+
+if ( file_exists( $config_path ) )
+	$config = parse_ini_file( $config_path );
 else
 	die( 'config.ini could not be found.' );
 
