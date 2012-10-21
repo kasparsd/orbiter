@@ -27,7 +27,7 @@ class render_default extends orbiter {
 		else
 			$article['filename'] = basename( $article['filename'] );
 
-		$article['permalink'] = ltrim( $article['uri'], '/' ) . '/' . $article['slug'];
+		$article['permalink'] = ltrim( $article['uri'] . '/' . $article['slug'], '/' );
 
 		return $article;
 	}
