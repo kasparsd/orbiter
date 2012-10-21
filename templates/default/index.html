@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>{{title}}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+
+<div id="soul">
+	<nav id="header">
+		<header>
+			<h1>My New Site</h1>
+		</header>
+
+		<ul>
+			<li><a href="about/">About</a></li>
+			<li><a href="rss.xml">RSS</a></li>
+		</ul>
+	</nav>
+
+	<section id="articles">
+		{{#article}}
+		<article>
+			{{{content}}}
+		</article>
+		{{/article}}
+
+		<ul class="article-list">
+		{{#articles}}
+			{{^nolist}}
+				<li>
+					<h2><a href=".{{uri}}/{{slug}}/">{{title}}</a></h2>
+				</li>
+			{{/nolist}}
+		{{/articles}}
+		</ul>
+	</section><!-- #articles -->
+
+</div><!-- #soul -->
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+        <title>RSS Title</title>
+        <description>This is an example of an RSS feed</description>
+        <link>http://example.com</link>
+        
+        {{#articles}}
+        {{^nolist}}
+        <item>
+                <title>{{title}}</title>
+                <link>http://example.com{{uri}}/{{slug}}/</link>
+                <guid>http://example.com/#{{id}}</guid>
+                <pubDate>{{pubdate}}</pubDate>
+        </item>
+        {{/nolist}}
+        {{/articles}}
+</channel>
+</rss>
