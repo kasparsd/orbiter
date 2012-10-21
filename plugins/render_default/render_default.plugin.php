@@ -41,6 +41,9 @@ class render_default extends orbiter {
 		if ( ! is_dir( dirname( $destination ) ) )
 			mkdir( dirname( $destination ), 0777, true );
 
+		if ( is_dir( dirname( $article['file'] ) . '/assets' ) && ! is_link( dirname( $destination ) . '/assets' ) )
+			symlink( dirname( $article['file'] ) . '/assets', dirname( $destination ) . '/assets' );
+
 		if ( isset( orbiter::$template[ $article['template'] ] ) )
 			file_put_contents( 
 					orbiter::filter( 'render_article_destination', $destination, $article ),
