@@ -1,6 +1,6 @@
 # Orbiter
 
-**Orbiter is a simple tool for publishing static website out of Markdown documents.**
+**Orbiter is a simple tool for publishing a website out of Markdown documents.**
 
 ![Screenshot of a website create with Orbiter](https://raw.github.com/kasparsd/orbiter/master/screenshot.png)
 
@@ -14,9 +14,14 @@ Created by **Kaspars Dambis**
 [@konstruktors](http://twitter.com/konstruktors)
 
 
+## Features
+
+TODO
+
+
 ## Installation
 
-1.  Clone *Orbiter* to your server, preferably outside of the public root:
+1.  Clone *Orbiter* to your server:
 
 		git clone git://github.com/kasparsd/orbiter.git orbiter
 		
@@ -26,9 +31,7 @@ Created by **Kaspars Dambis**
 		
 	and adjust settings to fit your environment.
 	
-3. 	Publish your site by running `publish.php` like this:
-
-		php publish.php
+3. 	Visit your site.
 
 
 ## Features
