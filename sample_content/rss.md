@@ -1,5 +1,5 @@
 template = rss.xml  
-filename = rss.xml
+slug = rss
 nolist = true
 
 
