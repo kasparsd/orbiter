@@ -9,24 +9,29 @@ class render_default extends orbiter {
 	}
 
 	function render_path_setup( $article ) {
-
+		
 		$slug_path = str_replace( realpath( orbiter::$config['docs'] ), '', dirname( $article['file'] ) );
 		$slug = array_shift( explode( '.', basename( $article['file'] ) ) );
 
+		// Add a default slug
 		if ( ! isset( $article['slug'] ) )
 			$article['slug'] = $slug;
 
+		// Add a default location
 		if ( ! isset( $article['uri'] ) )
 			$article['uri'] = dirname( $slug_path );
 
+		// Specify a default template file
 		if ( ! isset( $article['template'] ) )
 			$article['template'] = 'template.html';
 
+		// Specify a default destination filename
 		if ( ! isset( $article['filename'] ) )
 			$article['filename'] = $article['slug'] . '/index.html';
 		else
 			$article['filename'] = basename( $article['filename'] );
 
+		// Create a permalink
 		$article['permalink'] = ltrim( $article['uri'] . '/' . $article['slug'], '/' );
 
 		return $article;
@@ -41,6 +46,7 @@ class render_default extends orbiter {
 		if ( ! is_dir( dirname( $destination ) ) )
 			mkdir( dirname( $destination ), 0777, true );
 
+		// Automatically symlink the assets folder
 		if ( is_dir( dirname( $article['file'] ) . '/assets' ) && ! is_link( dirname( $destination ) . '/assets' ) )
 			symlink( dirname( $article['file'] ) . '/assets', dirname( $destination ) . '/assets' );
 
