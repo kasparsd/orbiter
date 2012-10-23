@@ -3,7 +3,7 @@
 class meta_helpers extends orbiter {
 
 	function meta_helpers() {
-		orbiter::add_filter( 'parse_document', array( $this, 'add_helper_meta' ), 25 );
+		orbiter::add_filter( 'parse_document', array( $this, 'add_helper_meta' ), 30 );
 	}
 
 	function add_helper_meta( $article ) {
