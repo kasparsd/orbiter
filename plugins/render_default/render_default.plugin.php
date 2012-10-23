@@ -40,7 +40,7 @@ class render_default extends orbiter {
 
 	function render_article( $article, $articles ) {
 
-		$destination = realpath( orbiter::$config['public'] ) . $article['uri'] . '/' . $article['filename'];
+		$destination = realpath( orbiter::$config['public'] ) . $article['permalink'] . '/' . $article['filename'];
 
 		// Create path to that folder
 		if ( ! is_dir( dirname( $destination ) ) )
