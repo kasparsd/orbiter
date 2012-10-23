@@ -24,7 +24,7 @@ class orbiter {
 			$this->load_template();
 
 			// Render the all output files
-			$this->parse_render();
+			$this->render();
 
 		}
 
@@ -50,42 +50,30 @@ class orbiter {
 		foreach ( $tempate_files as $template_file )
 			self::$template[ basename( $template_file ) ] = file_get_contents( $template_file );
 
-		// Symlink the assets folder
-		if ( is_dir( realpath( self::$config['template'] ) . '/assets' ) && ! file_exists( realpath( self::$config['public'] ) . '/assets' ) )
-			symlink( realpath( self::$config['template'] ) . '/assets', realpath( self::$config['public'] ) . '/assets' );
-
 	}
 
 
-	private function parse_render() {
-		
-		// Be sure to empty the articles list
-		$this->articles = array();
+	private function render() {
+
+		self::$config['home'] = dirname( $_SERVER['SCRIPT_NAME'] );
 
 		$docs = $this->glob_files( self::$config['docs_extension'], realpath( self::$config['docs'] ) );
 
-		foreach ( $docs as $file ) {
-
-			// Setup the article
-			$article = array(
-					'file' => $file,
-					'content' => file_get_contents( $file ),
-					'filemtime' => filemtime( $file ),
-					'id' => md5( $file ),
+		// Parse docs
+		foreach ( $docs as $doc )
+			$this->articles[] = $this->filter( 'parse_document', array( 
+					'file' => $doc,
+					'uri' => str_replace( realpath( self::$config['docs'] ), '', dirname( $doc ) ),
+					'slug' => str_replace( 'index', '', array_shift( explode( '.', basename( $doc ) ) ) ),
+					'template' => 'template.html',
+					'content' => file_get_contents( $doc ),
+					'filemtime' => filemtime( $doc ),
+					'id' => md5( $doc ),
 					'config' => self::$config
-				);
-
-			// Append article to the list
-			$this->articles[] = $this->filter( 'parse_document', $article );
-
-		}
+				));
 
 		// Render index pages
-		$this->filter( 'render_index', $this->articles );
-
-		// Render each article
-		foreach ( $this->articles as $article )
-			$this->filter( 'render_article', $article, $this->articles );
+		$this->filter( 'render', $this->articles );
 
 	}
 
