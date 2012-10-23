@@ -49,6 +49,10 @@ class orbiter {
 		foreach ( $tempate_files as $template_file )
 			self::$template[ basename( $template_file ) ] = file_get_contents( $template_file );
 
+		// Symlink the assets folder
+		if ( is_dir( realpath( self::$config['template'] ) . '/assets' ) && ! file_exists( realpath( self::$config['public'] ) . '/assets' ) )
+			symlink( realpath( self::$config['template'] ) . '/assets', realpath( self::$config['public'] ) . '/assets' );
+
 	}
 
 
