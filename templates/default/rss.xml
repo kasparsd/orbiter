@@ -3,14 +3,14 @@
 <channel>
         <title>RSS Title</title>
         <description>This is an example of an RSS feed</description>
-        <link>http://example.com</link>
+        <link>{{config.home}}</link>
         
         {{#articles}}
         {{^nolist}}
         <item>
                 <title>{{title}}</title>
-                <link>http://example.com{{uri}}/{{slug}}/</link>
-                <guid>http://example.com/#{{id}}</guid>
+                <link>{{config.home}}/{{permalink}}/</link>
+                <guid>{{config.home}}/#{{id}}</guid>
                 <pubDate>{{pubdate}}</pubDate>
         </item>
         {{/nolist}}
