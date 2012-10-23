@@ -19,7 +19,11 @@ class render_default extends orbiter {
 
 		// Add a default location
 		if ( ! isset( $article['uri'] ) )
-			$article['uri'] = dirname( $slug_path );
+			$article['uri'] = $slug_path;
+
+		// We know what we're doing, so don't put it in a sub-folder
+		if ( isset( $article['filename'] ) )
+			$article['slug'] = dirname( $slug_path );
 
 		// Specify a default template file
 		if ( ! isset( $article['template'] ) )
@@ -27,7 +31,7 @@ class render_default extends orbiter {
 
 		// Specify a default destination filename
 		if ( ! isset( $article['filename'] ) )
-			$article['filename'] = $article['slug'] . '/index.html';
+			$article['filename'] = 'index.html';
 		else
 			$article['filename'] = basename( $article['filename'] );
 
@@ -40,7 +44,7 @@ class render_default extends orbiter {
 
 	function render_article( $article, $articles ) {
 
-		$destination = realpath( orbiter::$config['public'] ) . '/' . $article['uri'] . '/' . $article['filename'];
+		$destination = realpath( orbiter::$config['public'] ) . '/' . $article['permalink'] . '/' . $article['filename'];
 
 		// Create path to that folder
 		if ( ! is_dir( dirname( $destination ) ) )
