@@ -1,1 +1,24 @@
-body { background:red; }
+body { color:#333; font:16px/1.4 sans-serif; padding:1em; margin:0; }
+a { text-decoration:none; }
+a:hover { text-decoration:underline; }
+h1 { font-size:2em; }
+h2, h3, h4, h5, h6 { font-size:1.3em; margin-top:1.5em; }
+pre { background:#ddd; padding:0.5em 1em; display:block; overflow:auto; overflow-x:scroll; }
+.menu { display:block; float:left; margin:0; padding:0; }
+.menu li { float:left; display:block; margin:0; padding:0; }
+#header { float:left; width:100%; clear:both; margin:1em 0 2em 0; padding-bottom:1em; border-bottom:1px solid #ddd; }
+#soul { max-width:600px; margin:0 auto; }
+#header h1 { float:left; margin:0 1em 1em 0; font-size:1em; }
+#header h1 a { padding:1em; margin-left:-1em; }
+#header ul { float:right; margin:0 -0.7em 0 0; }
+#header li a { padding:1em 0.7em; }
+#header .twitter-follow-button { margin:0 1em; }
+#footer { float:left; width:100%; clear:both; padding:1em 0; margin:2em 0; border-top:1px solid #ddd; }
+#footer ul { margin-left:-0.7em; }
+#footer li a { padding:1em 0.7em; }
+#via-orbiter { float:right; color:#ccc; }
+.article-list, #article { float:left; width:100%; clear:both; margin:0; padding:0; }
+.article-list li { display:block; list-style:none; margin:0; padding:0; }
+.article-list h2 { font-size:1.5em; margin:0; }
+.article-list a { display:block; padding:1em 0; }
+#article img { max-width:100%; }

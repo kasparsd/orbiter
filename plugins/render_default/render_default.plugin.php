@@ -50,10 +50,18 @@ class render_default extends orbiter {
 		if ( is_dir( dirname( $article['file'] ) . '/assets' ) && ! is_link( dirname( $destination ) . '/assets' ) )
 			symlink( dirname( $article['file'] ) . '/assets', dirname( $destination ) . '/assets' );
 
+		$template_vars = array( 
+				'article' => $article, 
+				'articles' => $articles, 
+				'config' => orbiter::$config 
+			);
+		
+		$template_vars = orbiter::filter( 'render_article_vars', $template_vars, $article, $articles );
+
 		if ( isset( orbiter::$template[ $article['template'] ] ) )
 			file_put_contents( 
 					orbiter::filter( 'render_article_destination', $destination, $article ),
-					orbiter::filter( 'render_article_html', array( 'article' => $article, 'articles' => $articles ), orbiter::$template[ $article['template'] ] ) 
+					orbiter::filter( 'render_article_html', $template_vars, orbiter::$template[ $article['template'] ] ) 
 				);
 
 		return $article;

@@ -4,19 +4,22 @@
 	<meta charset="utf-8" />
 	<title>A Sample Website Published via Orbiter</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="alternate" type="application/rss+xml" href="rss.xml" />
+	<link rel="stylesheet" type="text/css" href="{{config.home}}/assets/style.css" />
+	<link rel="alternate" type="application/rss+xml" href="{{config.home}}/rss.xml" />
 </head>
 <body>
 
 <div id="soul">
+
 	<nav id="header">
 		<header>
 			<h1>My New Site</h1>
 		</header>
 
-		<ul>
-			<li><a href="about/">About</a></li>
-			<li><a href="rss.xml">RSS</a></li>
+		<ul class="menu">
+			<li><a href="{{config.home}}/about/">About</a></li>
+			<li><a href="{{config.home}}/rss.xml">RSS</a></li>
+			<li><a href="http://twitter.com/viaorbiter">@viaOrbiter</a></li>
 		</ul>
 	</nav>
 
@@ -31,12 +34,22 @@
 		{{#articles}}
 			{{^nolist}}
 				<li>
-					<h2><a href="./{{permalink}}/">{{title}}</a></h2>
+					<h2><a href="{{config.home}}/{{permalink}}/">{{title}}</a></h2>
 				</li>
 			{{/nolist}}
 		{{/articles}}
 		</ul>
 	</section><!-- #articles -->
+
+	<nav id="footer">
+		<ul class="menu">
+			<li><a href="{{config.home}}/">Index</a></li>
+			<li><a href="{{config.home}}/rss.xml">RSS</a></li>
+			<li><a href="http://twitter.com/viaorbiter">@viaOrbiter</a></li>
+		</ul>
+
+		<a href="http://viaorbiter.com" id="via-orbiter" title="Published via Orbiter">Published via Orbiter</a>
+	</nav>
 
 </div><!-- #soul -->
 
