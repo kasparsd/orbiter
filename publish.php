@@ -25,7 +25,7 @@ class orbiter {
 
 			// Render the all output files
 			$this->parse_render();
-			
+
 		}
 
 	}
@@ -58,6 +58,9 @@ class orbiter {
 
 
 	private function parse_render() {
+		
+		// Be sure to empty the articles list
+		$this->articles = array();
 
 		$docs = $this->glob_files( self::$config['docs_extension'], realpath( self::$config['docs'] ) );
 
