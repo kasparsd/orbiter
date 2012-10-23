@@ -17,6 +17,7 @@ class orbiter {
 		
 		$this->load_plugins();
 		
+		// Loop through each section of the ini file, representing each site 
 		foreach ( $this->load_config() as self::$config ) {
 
 			// Load the template
@@ -24,7 +25,7 @@ class orbiter {
 
 			// Render the all output files
 			$this->parse_render();
-		
+			
 		}
 
 	}
