@@ -1,5 +1,4 @@
-template = index.html  
-filename = index.html
+template = index.html
 nolist = true
 
 
