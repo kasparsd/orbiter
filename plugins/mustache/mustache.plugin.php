@@ -12,6 +12,7 @@ class mustache extends orbiter {
 		include( 'mustache/src/Mustache/Autoloader.php' );
 		Mustache_Autoloader::register();
 		$this->m = new Mustache_Engine;
+		
 	}
 	
 	function render_article_html( $article, $template ) {
