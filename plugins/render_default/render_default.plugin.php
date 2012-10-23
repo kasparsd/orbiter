@@ -18,8 +18,7 @@ class render_default extends orbiter {
 
 	function render_view( $articles ) {
 
-		// Extract request path
-		$request_uri = str_replace( dirname( $_SERVER['SCRIPT_NAME'] ), '', $_SERVER['REQUEST_URI'] );
+		$request_uri = str_replace( dirname( $_SERVER['PHP_SELF'] ), '/', $_SERVER['REQUEST_URI'] );
 
 		// Remove query args and opening/trailing slashes
 		$request_uri = trim( array_shift( explode( '?', $request_uri ) ) , '/' );
