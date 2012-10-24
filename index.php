@@ -34,12 +34,13 @@ class orbiter {
 	private function load_config() {
 
 		if ( file_exists( __DIR__ . '/config.ini' ) )
-			return parse_ini_file( __DIR__ . '/config.ini', true );
+			$config = parse_ini_file( __DIR__ . '/config.ini', true );
 		else if ( file_exists( __DIR__ . '/config_sample.ini' ) )
-			return parse_ini_file( __DIR__ . '/config_sample.ini', true );
+			$config = parse_ini_file( __DIR__ . '/config_sample.ini', true );
 		else
 			die( 'Config could not be loaded.' );
 
+		return $this->filter( 'load_config', $config );
 	}
 
 
@@ -55,7 +56,11 @@ class orbiter {
 
 	private function render() {
 
-		self::$config['home'] = dirname( $_SERVER['SCRIPT_NAME'] );
+		if ( ! isset( self::$config['home'] ) )
+			self::$config['home'] = dirname( $_SERVER['SCRIPT_NAME'] );
+		
+		if ( ! isset( self::$config['public_root'] ) )
+			self::$config['public_root'] = __DIR__;
 
 		$docs = $this->glob_files( self::$config['docs_extension'], realpath( self::$config['docs'] ) );
 
