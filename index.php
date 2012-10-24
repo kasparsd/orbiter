@@ -58,9 +58,6 @@ class orbiter {
 
 		if ( ! isset( self::$config['home'] ) )
 			self::$config['home'] = dirname( $_SERVER['SCRIPT_NAME'] );
-		
-		if ( ! isset( self::$config['public_root'] ) )
-			self::$config['public_root'] = __DIR__;
 
 		$docs = $this->glob_files( self::$config['docs_extension'], realpath( self::$config['docs'] ) );
 
