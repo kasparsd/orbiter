@@ -8,9 +8,9 @@ class parser_helpers extends orbiter {
 	}
 
 	function img_to_relative( $article ) {
-		
+
 		if ( isset( orbiter::$config['home'] ) && isset( orbiter::$config['public_root'] ) ) {
-			$base = orbiter::$config['home'] . str_replace( realpath( orbiter::$config['public_root'] ), '', dirname( $article['file'] ) );
+			$base = orbiter::$config['home'] . '/' . trim( orbiter::$config['docs'], '/\\' ) . str_replace( realpath( orbiter::$config['docs'] ), '', dirname( $article['file'] ) );
 			$article['content'] = preg_replace( '/src="([^http:|\/][^\"]+)"/i', sprintf( 'src="%s/$1"', $base ), $article['content'] );
 		}
 
