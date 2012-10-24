@@ -11,7 +11,9 @@ class markdown extends orbiter {
 
 	function convert_markdown( $article ) {
 		
+		// Parse Markdown
 		$article['content'] = Markdown( $article['content'] );
+
 		return $article;
 		
 	}
