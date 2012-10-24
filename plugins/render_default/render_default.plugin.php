@@ -11,7 +11,7 @@ class render_default extends orbiter {
 	function article_setup( $article ) {
 
 		// Add permalink
-		$article['permalink'] = ltrim( $article['uri'] . '/' . $article['slug'], '/' );
+		$article['permalink'] = trim( $article['uri'] . '/' . $article['slug'], '/' );
 
 		return $article;
 	}
@@ -29,6 +29,10 @@ class render_default extends orbiter {
 		foreach ( $articles as $article )
 			if ( $article['permalink'] == $request_uri )
 				die( orbiter::filter( 'render_article_html', array( 'article' => $article, 'articles' => $articles, 'config' => orbiter::$config ), orbiter::$template[ $article['template'] ] ) );
+
+		header('HTTP/1.0 404 Not Found');
+		die;
+
 	}
 
 }
