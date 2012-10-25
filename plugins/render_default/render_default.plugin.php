@@ -30,14 +30,14 @@ class render_default extends orbiter {
 		foreach ( $articles as $article )
 			if ( $article['permalink'] == $request_uri )
 				die( orbiter::filter( 'render_article_html', array( 'article' => $article, 'articles' => $articles, 'config' => orbiter::$config ), orbiter::$template[ $article['template'] ], $request_uri ) );
-
+		
 		header('HTTP/1.0 404 Not Found');
 
 		foreach ( $articles as $article )
 			if ( $article['permalink'] == '404' )
 				die( orbiter::filter( 'render_article_html', array( 'article' => $article, 'articles' => $articles, 'config' => orbiter::$config ), orbiter::$template[ $article['template'] ], $request_uri ) );
 
-		die;
+		die( orbiter::filter( 'render_article_html', array( 'article' => array( 'content' => 'Page Not Found' ), 'articles' => $articles, 'config' => orbiter::$config ), orbiter::$template[ 'template.html' ], $request_uri ) );
 	}
 
 }
