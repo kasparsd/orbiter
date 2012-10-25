@@ -18,6 +18,7 @@ class render_default extends orbiter {
 
 	function render_view( $articles ) {
 
+		// Get the request relative to this folder
 		$request_uri = str_replace( dirname( $_SERVER['PHP_SELF'] ), '/', $_SERVER['REQUEST_URI'] );
 
 		// Remove query args and opening/trailing slashes
@@ -28,11 +29,15 @@ class render_default extends orbiter {
 
 		foreach ( $articles as $article )
 			if ( $article['permalink'] == $request_uri )
-				die( orbiter::filter( 'render_article_html', array( 'article' => $article, 'articles' => $articles, 'config' => orbiter::$config ), orbiter::$template[ $article['template'] ] ) );
+				die( orbiter::filter( 'render_article_html', array( 'article' => $article, 'articles' => $articles, 'config' => orbiter::$config ), orbiter::$template[ $article['template'] ], $request_uri ) );
 
 		header('HTTP/1.0 404 Not Found');
-		die;
 
+		foreach ( $articles as $article )
+			if ( $article['permalink'] == '404' )
+				die( orbiter::filter( 'render_article_html', array( 'article' => $article, 'articles' => $articles, 'config' => orbiter::$config ), orbiter::$template[ $article['template'] ], $request_uri ) );
+
+		die;
 	}
 
 }
