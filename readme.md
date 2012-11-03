@@ -2,7 +2,7 @@
 
 Please visit the official project website &mdash; [viaorbiter.com](http://viaorbiter.com)
 
-[![Screenshot of a website create with Orbiter](https://raw.github.com/kasparsd/orbiter/master/screenshot.png)](http://viaorbiter.com)
+[![Screenshot of a website create with Orbiter](https://raw.github.com/kasparsd/orbiter/dynamic/screenshot.png)](http://viaorbiter.com)
 
 ## Author
 
