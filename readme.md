@@ -1,22 +1,14 @@
-# Orbiter
+# Orbiter is a sim­ple and extend­able PHP tool for pub­lish­ing beau­ti­ful web­sites out of text documents
 
-**Orbiter is a simple tool for publishing a website out of Markdown documents.**
+Please visit the official project website &mdash; [viaorbiter.com](http://viaorbiter.com)
 
-![Screenshot of a website create with Orbiter](https://raw.github.com/kasparsd/orbiter/master/screenshot.png)
-
-Screenshot of [a website created with Orbiter](http://konstruktors.com/articles/)
-
+[![Screenshot of a website create with Orbiter](https://raw.github.com/kasparsd/orbiter/master/screenshot.png)](http://viaorbiter.com)
 
 ## Author
 
 Created by **Kaspars Dambis**  
 [konstruktors.com](http://konstruktors.com)  
 [@konstruktors](http://twitter.com/konstruktors)
-
-
-## Features
-
-TODO
 
 
 ## Installation
@@ -29,17 +21,6 @@ TODO
 
 		cp config_sample.ini config.ini
 		
-	and adjust settings to fit your environment.
+	and adjust the settings to fit your environment.
 	
 3. 	Visit your site.
-
-
-## Features
-
-TODO
-
-## Changelog
-
-TODO
-
-
