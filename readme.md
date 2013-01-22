@@ -22,5 +22,14 @@ Created by **Kaspars Dambis**
 		cp config_sample.ini config.ini
 		
 	and adjust the settings to fit your environment.
-	
+
 3. 	Visit your site.
+
+
+## Orbiter Plugins
+
+Orbiter has an extremely simple and flexible plugin infrastructure similar to WordPress. Even
+most of the core functionality, such as rendering HTML, RSS feed or XML sitemap are provided by plugins.
+
+Visit the official [Orbiter plugin repository on GitHub](https://github.com/kasparsd/orbiter-plugins) 
+and feel free to add your plugin by making a pull request.
