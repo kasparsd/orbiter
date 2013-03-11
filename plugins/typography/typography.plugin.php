@@ -6,6 +6,9 @@ class typography extends orbiter {
 
 	function typography() {
 
+		if ( ! function_exists('mb_detect_encoding') )
+			return;
+
 		include( __DIR__ . '/php-typography/php-typography.php' );
 		$this->typo = new phpTypography();
 
