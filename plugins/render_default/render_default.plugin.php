@@ -65,6 +65,8 @@ class render_default extends orbiter {
 		if ( $path['extension'] == 'xml' )
 			header( 'Content-type: text/xml; charset=UTF-8' );
 
+		header( sprintf( 'Last-Modified: %s GMT', gmdate( 'D, d M Y H:i:s',  $content['article']['filemtime'] ) ) );
+
 		return $content;
 
 	}
