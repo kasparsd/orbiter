@@ -18,12 +18,13 @@ class mustache extends orbiter {
 	
 	function render_article_html( $vars ) {
 
-		$this->m->setPartials( orbiter::$template );
+		$template = sprintf( '%s/%s', realpath( orbiter::$config['template'] ), $vars['article']['template'] );
 		
-		if ( isset( $vars['article']['template'] ) )
-			return $this->m->render( orbiter::$template[ $vars['article']['template'] ], $vars );
+		if ( file_exists( $template ) )
+			return $this->m->render( file_get_contents( $template ), $vars );
 
-		return $vars;
+		die('Mustache failed to render the page.');
 		
 	}
+
 }
