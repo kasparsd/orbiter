@@ -56,6 +56,9 @@ class orbiter {
 
 	private function render() {
 
+		if ( isset( $config['timezone'] ) )
+			date_default_timezone_set( $config['timezone'] );
+
 		if ( ! isset( self::$config['home'] ) )
 			self::$config['home'] = dirname( $_SERVER['SCRIPT_NAME'] );
 
