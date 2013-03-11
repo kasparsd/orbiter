@@ -15,49 +15,36 @@ class orbiter {
 
 	function orbiter() {
 		
+		$this->load_config();
 		$this->load_plugins();
-		
-		// Loop through each section of the ini file, representing each site 
-		foreach ( $this->load_config() as self::$config ) {
 
-			// Load the template
-			$this->load_template();
-
-			// Render the all output files
-			$this->render();
-
-		}
+		$this->render();
 
 	}
 
 
 	private function load_config() {
 
+		// Load config file
 		if ( file_exists( __DIR__ . '/config.ini' ) )
 			$config = parse_ini_file( __DIR__ . '/config.ini', true );
-		else if ( file_exists( __DIR__ . '/config_sample.ini' ) )
+		elseif ( file_exists( __DIR__ . '/config_sample.ini' ) )
 			$config = parse_ini_file( __DIR__ . '/config_sample.ini', true );
 		else
-			die( 'Config could not be loaded.' );
+			$config = array();
 
-		return $this->filter( 'load_config', $config );
-	}
-
-
-	private function load_template() {
-
-		$tempate_files = $this->glob_files( '*', realpath( self::$config['template'] ) );
-
-		foreach ( $tempate_files as $template_file )
-			self::$template[ basename( $template_file ) ] = file_get_contents( $template_file );
+		// Set config for the specific host / site
+		if ( isset( $config[ $_SERVER['HTTP_HOST'] ] ) ) 
+			self::$config = $config[ $_SERVER['HTTP_HOST'] ];
+		elseif ( isset( $config['example.com'] ) ) // Load sample config for fresh install demo
+			self::$config = $config['example.com'];
+		else
+			die('No config file found!');
 
 	}
 
 
 	private function render() {
-
-		if ( isset( $config['timezone'] ) )
-			date_default_timezone_set( $config['timezone'] );
 
 		if ( ! isset( self::$config['home'] ) )
 			self::$config['home'] = dirname( $_SERVER['SCRIPT_NAME'] );
@@ -75,7 +62,7 @@ class orbiter {
 					'filemtime' => filemtime( $doc ),
 					'id' => md5( $doc ),
 					'config' => self::$config
-				));
+				) );
 
 		// Render index pages
 		$this->filter( 'render', $this->articles );
@@ -85,9 +72,16 @@ class orbiter {
 
 	private function load_plugins() {
 
-		// Find all plugins
-		foreach ( $this->glob_files( '*.plugin.php', __DIR__ . '/plugins' ) as $plugin )
-			include( $plugin );
+		if ( isset( self::$config['timezone'] ) )
+			date_default_timezone_set( self::$config['timezone'] );
+
+		// Load all plugins
+		foreach ( explode( ',', self::$config['plugins'] ) as $plugin_name ) {
+			$plugin_file = sprintf( '%1$s/plugins/%2$s/%2$s.plugin.php', __DIR__, trim( $plugin_name ) );
+
+			if ( file_exists( $plugin_file ) )
+				include( $plugin_file );
+		}
 
 		// Autoload plugins
 		foreach ( get_declared_classes() as $class )
