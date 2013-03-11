@@ -14,7 +14,7 @@ class orbiter {
 
 
 	function orbiter() {
-		
+
 		$this->load_config();
 		$this->load_plugins();
 
@@ -75,13 +75,17 @@ class orbiter {
 		if ( isset( self::$config['timezone'] ) )
 			date_default_timezone_set( self::$config['timezone'] );
 
-		// Load all plugins
-		foreach ( explode( ',', self::$config['plugins'] ) as $plugin_name ) {
-			$plugin_file = sprintf( '%1$s/plugins/%2$s/%2$s.plugin.php', __DIR__, trim( $plugin_name ) );
+		// See which plugins are enabled in site config
+		$plugins_enabled = explode( ',', self::$config['plugins'] );
 
-			if ( file_exists( $plugin_file ) )
-				include( $plugin_file );
-		}
+		// Find all available plugins in the plugins folder
+		foreach ( $this->glob_files( '*.plugin.php', __DIR__ . '/plugins' ) as $plugin_file )
+			$plugins_available[ basename( $plugin_file, '.plugin.php' ) ] = $plugin_file;
+		
+		// Include enabled plugin files
+		foreach ( $plugins_enabled as $plugin_name )
+			if ( isset( $plugins_available[ trim( $plugin_name ) ] ) )
+				include( $plugins_available[ trim( $plugin_name ) ] );
 
 		// Autoload plugins
 		foreach ( get_declared_classes() as $class )
