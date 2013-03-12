@@ -8,7 +8,6 @@ class orbiter {
 	public $docs = array();
 	public $articles = array();
 
-	static public $template = array();
 	static public $config = array();
 	static public $filters = array();
 
