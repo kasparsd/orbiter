@@ -1,9 +1,11 @@
 <?php
 
-new orbiter();
+orbiter::instance();
 
 
 class orbiter {
+
+	private static $instance;
 
 	public $docs = array();
 	public $articles = array();
@@ -12,12 +14,22 @@ class orbiter {
 	static public $filters = array();
 
 
-	function orbiter() {
+	private function __construct() {
 
 		$this->load_config();
 		$this->load_plugins();
 
 		$this->render();
+
+	}
+
+
+	public function instance() {
+
+		if ( ! self::$instance )
+			self::$instance = new self();
+
+		return self::$instance;
 
 	}
 
