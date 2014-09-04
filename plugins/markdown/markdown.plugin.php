@@ -4,7 +4,8 @@ class markdown extends orbiter_plugin {
 
 	function markdown() {
 
-		include( 'php-markdown/markdown.php' );
+		include( dirname( __FILE__ ) . '/php-markdown/markdown.php' );
+
 		orbiter::add_filter( 'index_item', array( $this, 'convert_markdown' ), 20 );
 	
 	}
@@ -12,7 +13,8 @@ class markdown extends orbiter_plugin {
 	function convert_markdown( $article ) {
 		
 		// Parse Markdown
-		$article['content'] = Markdown( $article['content'] );
+		if ( isset( $article['content'] ) )
+			$article['content'] = Markdown( $article['content'] );
 
 		return $article;
 		
