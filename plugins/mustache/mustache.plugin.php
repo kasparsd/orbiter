@@ -20,7 +20,11 @@ class mustache extends orbiter_plugin {
 	
 	function render_article_html( $article ) {
 
-		$template = sprintf( '%s/%s', orbiter::$config['template'], $article['template'] );
+		$template_path = sprintf( 
+				'%s/%s', 
+				orbiter::$config['template'], 
+				$article['template'] 
+			);
 
 		$args = array( 
 				'orbiter' => orbiter::instance(), 
@@ -28,9 +32,9 @@ class mustache extends orbiter_plugin {
 				'articles' => $this->articles()
 			);
 
-		if ( file_exists( $template ) )
+		if ( file_exists( $template_path ) )
 			return $this->m->render( 
-					file_get_contents( $template ), 
+					file_get_contents( $template_path ), 
 					$args
 				);
 		else
