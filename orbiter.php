@@ -26,6 +26,14 @@ class orbiter {
 	}
 
 
+	public function build() {
+
+		$this->load_plugins();
+		$this->build_index();
+
+	}
+
+
 	public static function instance() {
 
 		static $instance = null;
@@ -78,7 +86,7 @@ class orbiter {
 	}
 
 
-	public function build_index() {
+	private function build_index() {
 
 		$index = array();
 		$articles = array();
