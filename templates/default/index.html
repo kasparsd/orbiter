@@ -32,9 +32,13 @@
 
 		<ul class="article-list">
 		{{#articles}}
+			{{^noindex}}
+			{{^type}}
 			<li>
 				<h2><a href="{{orbiter.config.home}}/{{uri}}">{{title}}</a></h2>
 			</li>
+			{{/type}}
+			{{/noindex}}
 		{{/articles}}
 		</ul>
 	</section><!-- #articles -->

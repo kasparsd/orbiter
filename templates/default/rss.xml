@@ -4,12 +4,14 @@
         <title>RSS Title</title>
         <description>This is an example of an RSS feed</description>
         {{#articles}}
+        {{^noindex}}
         <item>
                 <title>{{title}}</title>
                 <link>{{orbiter.config.home}}/{{uri}}</link>
                 <guid>{{orbiter.config.home}}/{{uri}}</guid>
                 <pubDate>{{pubdate}}</pubDate>
         </item>
+        {{/noindex}}
         {{/articles}}
 </channel>
 </rss>
