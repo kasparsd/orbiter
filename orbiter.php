@@ -166,10 +166,14 @@ class orbiter {
 	private function render() {
 
 		// Get the request relative to the document root
-		$request = ltrim( $_SERVER['REQUEST_URI'], dirname( $_SERVER['DOCUMENT_URI'] ) );
+		$request = substr( 
+				$_SERVER['REQUEST_URI'], 
+				strlen( dirname( $_SERVER['DOCUMENT_URI'] ) ) 
+			);
 
 		$parsed = parse_url( $request );
 
+		// Make sure we don't include query args or something like that
 		$request = trim( $parsed['path'], '/' );
 
 		$this->filter( 'render', $request );
