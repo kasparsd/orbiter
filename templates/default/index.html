@@ -4,8 +4,8 @@
 	<meta charset="utf-8" />
 	<title>My New Site Published via Orbiter</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" type="text/css" href="{{config.home}}/assets/style.css" />
-	<link rel="alternate" type="application/rss+xml" href="{{config.home}}/rss.xml" />
+	<link rel="stylesheet" type="text/css" href="{{orbiter.config.home}}/templates/default/assets/style.css" />
+	<link rel="alternate" type="application/rss+xml" href="{{orbiter.config.home}}/rss" />
 </head>
 <body>
 
@@ -13,12 +13,12 @@
 
 	<nav id="header">
 		<header>
-			<h1><a href="{{config.home}}">My New Site</a></h1>
+			<h1><a href="{{orbiter.config.home}}">My New Site</a></h1>
 		</header>
 
 		<ul class="menu">
-			<li><a href="{{config.home}}/about/">About</a></li>
-			<li><a href="{{config.home}}/rss.xml">RSS</a></li>
+			<li><a href="{{orbiter.config.home}}/about">About</a></li>
+			<li><a href="{{orbiter.config.home}}/rss">RSS</a></li>
 			<li><a href="http://twitter.com/viaorbiter">@viaOrbiter</a></li>
 		</ul>
 	</nav>
@@ -32,19 +32,17 @@
 
 		<ul class="article-list">
 		{{#articles}}
-			{{^nolist}}
-				<li>
-					<h2><a href="{{config.home}}/{{permalink}}/">{{title}}</a></h2>
-				</li>
-			{{/nolist}}
+			<li>
+				<h2><a href="{{orbiter.config.home}}/{{uri}}">{{title}}</a></h2>
+			</li>
 		{{/articles}}
 		</ul>
 	</section><!-- #articles -->
 
 	<nav id="footer">
 		<ul class="menu">
-			<li><a href="{{config.home}}/">Index</a></li>
-			<li><a href="{{config.home}}/rss.xml">RSS</a></li>
+			<li><a href="{{orbiter.config.home}}/">Index</a></li>
+			<li><a href="{{orbiter.config.home}}/rss">RSS</a></li>
 			<li><a href="http://twitter.com/viaorbiter">@viaOrbiter</a></li>
 		</ul>
 

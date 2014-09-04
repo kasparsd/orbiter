@@ -1,11 +1,8 @@
-# Orbiter
+# Orbiter is a sim­ple and extend­able PHP tool for pub­lish­ing beau­ti­ful web­sites out of text documents
 
-**Orbiter is a simple tool for publishing static website out of Markdown documents.**
+Please visit the official project website &mdash; [viaorbiter.com](http://viaorbiter.com)
 
-![Screenshot of a website create with Orbiter](https://raw.github.com/kasparsd/orbiter/master/screenshot.png)
-
-Screenshot of [a website created with Orbiter](http://konstruktors.com/articles/)
-
+[![Screenshot of a website create with Orbiter](https://raw.github.com/kasparsd/orbiter/dynamic/screenshot.png)](http://viaorbiter.com)
 
 ## Author
 
@@ -16,7 +13,7 @@ Created by **Kaspars Dambis**
 
 ## Installation
 
-1.  Clone *Orbiter* to your server, preferably outside of the public root:
+1.  Clone *Orbiter* to your server:
 
 		git clone git://github.com/kasparsd/orbiter.git orbiter
 		
@@ -24,19 +21,15 @@ Created by **Kaspars Dambis**
 
 		cp config_sample.ini config.ini
 		
-	and adjust settings to fit your environment.
-	
-3. 	Publish your site by running `publish.php` like this:
+	and adjust the settings to fit your environment.
 
-		php publish.php
+3. 	Visit your site.
 
 
-## Features
+## Orbiter Plugins
 
-TODO
+Orbiter has an extremely simple and flexible plugin infrastructure similar to WordPress. Even
+most of the core functionality, such as rendering HTML, RSS feed or XML sitemap are provided by plugins.
 
-## Changelog
-
-TODO
-
-
+Visit the official [Orbiter plugin repository on GitHub](https://github.com/kasparsd/orbiter-plugins) 
+and feel free to add your plugin by making a pull request.

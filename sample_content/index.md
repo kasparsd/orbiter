@@ -1,6 +1,5 @@
-template = index.html  
-filename = index.html
-nolist = true
+template = index.html
+type = page
 
 
 # Hello World via Orbiter

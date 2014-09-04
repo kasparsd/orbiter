@@ -1,12 +1,17 @@
 <?php
 
-class meta_helpers extends orbiter {
+class meta_helpers extends orbiter_plugin {
 
 	function meta_helpers() {
-		orbiter::add_filter( 'parse_document', array( $this, 'add_helper_meta' ), 25 );
+
+		orbiter::add_filter( 'index_item', array( $this, 'add_helper_meta' ), 30 );
+
 	}
 
 	function add_helper_meta( $article ) {
+
+		if ( ! isset( $article['template'] ) )
+			$article['template'] = 'template.html';
 
 		// Add default article title, if none set
 		if ( ! isset( $article['title'] ) )
@@ -17,12 +22,13 @@ class meta_helpers extends orbiter {
 		if ( ! isset( $article['pubdate'] ) )
 			if ( isset( $article['time'] ) )
 				$article['pubdate'] = date( 'r', $article['time'] );
-			else if ( isset( $article['date'] ) )
+			elseif ( isset( $article['date'] ) )
 				$article['pubdate'] = date( 'r', $article['date'] );
 			else
 				$article['pubdate'] = date( 'r', $article['filemtime'] );
 
 		return $article;
+		
 	}
 
 }

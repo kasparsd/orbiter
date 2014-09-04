@@ -1,75 +1,68 @@
 <?php
 
 
-class render_default extends orbiter {
+class render_default extends orbiter_plugin {
+
 
 	function render_default() {
-		orbiter::add_filter( 'parse_document', array( $this, 'render_path_setup' ), 50 );
-		orbiter::add_filter( 'render_article', array( $this, 'render_article' ), 50 );
+
+		// Parse the request and resolve which file to use
+		orbiter::add_filter( 'render', array( $this, 'render_item' ), 50 );
+
+		// Add default headers for things like RSS feeds
+		orbiter::add_filter( 'render_article_html', array( $this, 'http_headers' ), 5 );
+
 	}
 
-	function render_path_setup( $article ) {
-		
-		$slug_path = str_replace( realpath( orbiter::$config['docs'] ), '', dirname( $article['file'] ) );
-		$slug = array_shift( explode( '.', basename( $article['file'] ) ) );
 
-		// Add a default slug
-		if ( ! isset( $article['slug'] ) )
-			$article['slug'] = $slug;
+	function render_item( $request ) {
 
-		// Add a default location
-		if ( ! isset( $article['uri'] ) )
-			$article['uri'] = $slug_path;
+		$orbiter = orbiter::instance();
+		$index = $orbiter->index();
 
-		// We know what we're doing, so don't put it in a sub-folder
-		if ( isset( $article['filename'] ) )
-			$article['slug'] = dirname( $slug_path );
-
-		// Specify a default template file
-		if ( ! isset( $article['template'] ) )
-			$article['template'] = 'template.html';
-
-		// Specify a default destination filename
-		if ( ! isset( $article['filename'] ) )
-			$article['filename'] = 'index.html';
+		if ( isset( $index[ $request ] ) )
+			$doc = $index[ $request ];
+		elseif ( isset( $index[ $request . '/index' ] ) )
+			$doc = $index[ $request . '/index' ];
+		elseif ( isset( $index[ $request . 'index'] ) )
+			$doc = $index[ $request . 'index'];
+		elseif ( isset( $index['404'] ) )
+			$doc = $index['404'];
 		else
-			$article['filename'] = basename( $article['filename'] );
+			throw new Exception( 'Could not find the requested document.', 1 );
 
-		// Create a permalink
-		$article['permalink'] = ltrim( $article['uri'] . '/' . $article['slug'], '/' );
+		$article = orbiter::filter( 'parse_document', $doc, $request );
 
-		return $article;
-	}
-
-
-	function render_article( $article, $articles ) {
-
-		$destination = realpath( orbiter::$config['public'] ) . '/' . $article['permalink'] . '/' . $article['filename'];
-
-		// Create path to that folder
-		if ( ! is_dir( dirname( $destination ) ) )
-			mkdir( dirname( $destination ), 0777, true );
-
-		// Automatically symlink the assets folder
-		if ( is_dir( dirname( $article['file'] ) . '/assets' ) && ! is_link( dirname( $destination ) . '/assets' ) )
-			symlink( dirname( $article['file'] ) . '/assets', dirname( $destination ) . '/assets' );
-
-		$template_vars = array( 
-				'article' => $article, 
-				'articles' => $articles, 
-				'config' => orbiter::$config 
+		$html = orbiter::filter( 
+				'render_article_html', 
+				$article
 			);
 
-		$template_vars = orbiter::filter( 'render_article_vars', $template_vars, $article, $articles );
+		if ( is_string( $html ) )
+			die( $html );
+	
+	}
 
-		if ( isset( orbiter::$template[ $article['template'] ] ) )
-			file_put_contents( 
-					orbiter::filter( 'render_article_destination', $destination, $article ),
-					orbiter::filter( 'render_article_html', $template_vars, orbiter::$template[ $article['template'] ] ) 
-				);
+
+	function http_headers( $article ) {
+
+		// Render Not Found
+		//header('HTTP/1.0 404 Not Found');
+
+		if ( ! isset( $article['template'] ) )
+			return $article;
+
+		$path = pathinfo( $article['template'] );
+
+		if ( $path['extension'] == 'xml' )
+			header( 'Content-type: text/xml; charset=UTF-8' );
+
+		header( sprintf( 'Last-Modified: %s GMT', gmdate( 'D, d M Y H:i:s',  $article['filemtime'] ) ) );
 
 		return $article;
 
 	}
 
+
 }
+

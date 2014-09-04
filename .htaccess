@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+	# Enable symlinks, in case you decide to symlink 
+	# content's folder
+	Options +FollowSymLinks
+
+	# Enable rewrites
+	RewriteEngine On
+
+	# Send everything to index.php
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule . index.php [QSA,L]
+</IfModule>
