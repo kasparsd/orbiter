@@ -2,4 +2,7 @@
 
 include dirname( __FILE__ ) . '/orbiter.php';
 
-orbiter::instance()->run();
+if ( isset( $_REQUEST['build'] ) )
+	orbiter::instance()->build();
+else
+	orbiter::instance()->run();
