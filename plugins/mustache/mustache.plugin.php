@@ -32,6 +32,8 @@ class mustache extends orbiter_plugin {
 				'articles' => $this->articles()
 			);
 
+		$args = orbiter::filter( 'render_article_html_args', $args, $article );
+
 		if ( file_exists( $template_path ) )
 			return $this->m->render( 
 					file_get_contents( $template_path ), 
