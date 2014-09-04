@@ -13,9 +13,6 @@ class meta_helpers extends orbiter_plugin {
 		if ( ! isset( $article['template'] ) )
 			$article['template'] = 'template.html';
 
-		if ( $article['slug'] == 'index' )
-			$article['uri'] = rtrim( substr( $article['uri'], strlen( 'index' ) ), '/' );
-
 		// Add default article title, if none set
 		if ( ! isset( $article['title'] ) )
 			if ( preg_match( '|<h[^>]+>(.*)</h[^>]+>|iU', $article['content'], $headings ) )
