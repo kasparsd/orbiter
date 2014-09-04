@@ -29,7 +29,7 @@ class mustache extends orbiter_plugin {
 		$args = array( 
 				'orbiter' => orbiter::instance(), 
 				'article' => $article,
-				'articles' => $this->articles()
+				'articles' => array_values( orbiter::instance()->index() )
 			);
 
 		$args = orbiter::filter( 'render_article_html_args', $args, $article );
@@ -43,20 +43,5 @@ class mustache extends orbiter_plugin {
 			return new Exception( 'Mustache failed to render the page.', 1 );
 		
 	}
-
-
-	function articles() {
-
-		$articles = array();
-
-		foreach ( orbiter::instance()->index() as $uri => $doc )
-			if ( ! isset( $doc['type'] ) )
-				$articles[] = $doc;
-
-		return $articles;
-
-	}
-
-
 
 }
