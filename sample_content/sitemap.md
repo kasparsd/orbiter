@@ -1,6 +1,6 @@
 template = sitemap.xml  
 slug = sitemap.xml
-nolist = true
+type = page
 
 
 # XML Sitemap

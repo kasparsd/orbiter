@@ -1,11 +1,11 @@
 <?php
 
-class markdown extends orbiter {
+class markdown extends orbiter_plugin {
 
 	function markdown() {
 
 		include( 'php-markdown/markdown.php' );
-		orbiter::add_filter( 'parse_document', array( $this, 'convert_markdown' ), 20 );
+		orbiter::add_filter( 'index_item', array( $this, 'convert_markdown' ), 20 );
 	
 	}
 

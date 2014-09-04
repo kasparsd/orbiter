@@ -1,5 +1,5 @@
 slug = about
-nolist = true
+type = page
 
 
 # About Orbiter

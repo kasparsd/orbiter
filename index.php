@@ -1,107 +1,205 @@
 <?php
 
-orbiter::instance();
+// Run!
+orbiter::instance()->run();
 
 
 class orbiter {
 
-	private static $instance;
-
-	public $docs = array();
-	public $articles = array();
-
-	static public $config = array();
-	static public $filters = array();
+	static $root;
+	static $config = array();
+	static $filters = array();
 
 
-	private function __construct() {
+	protected function __construct() {
 
-		$this->load_config();
+		self::$root = dirname( __FILE__ );
+
+		$this->build_config();
+
+		date_default_timezone_set( self::$config['timezone'] );
+
+	}
+
+
+	public function run() {
+
 		$this->load_plugins();
-
 		$this->render();
 
 	}
 
 
-	public function instance() {
+	public static function instance() {
 
-		if ( ! self::$instance )
-			self::$instance = new self();
+		static $instance = null;
 
-		return self::$instance;
+		if ( null === $instance )
+			$instance = new self;
+
+		return $instance;
 
 	}
 
 
-	private function load_config() {
+	private function build_config() {
 
-		// Load config file
-		if ( file_exists( __DIR__ . '/config.ini' ) )
-			$config = parse_ini_file( __DIR__ . '/config.ini', true );
-		elseif ( file_exists( __DIR__ . '/config_sample.ini' ) )
-			$config = parse_ini_file( __DIR__ . '/config_sample.ini', true );
-		else
-			$config = array();
+		$config = array();
 
-		// Set config for the specific host / site
-		if ( isset( $config[ $_SERVER['HTTP_HOST'] ] ) ) 
-			self::$config = $config[ $_SERVER['HTTP_HOST'] ];
-		elseif ( isset( $config['example.com'] ) ) // Load sample config for fresh install demo
-			self::$config = $config['example.com'];
+		$config_file = sprintf( 
+				'%s/config/%s.ini', 
+				self::$root, 
+				$_SERVER['HTTP_HOST']
+			);
+
+		$defaults = array(
+				'home' => sprintf( 'http://%s%s', $_SERVER['SERVER_NAME'], dirname( $_SERVER['DOCUMENT_URI'] ) ),
+				'docs' => 'sample_content',
+				'docs_extension' => 'md',
+				'template' => 'templates/default',
+				'plugins' => array( 
+					'render_default',
+					'parser_helpers',
+					'mustache',
+					'markdown',
+					'meta',
+					'meta_helpers',
+					'typography' 
+				),
+				'timezone' => 'Europe/Riga',
+				'debug' => false
+			);
+
+		if ( file_exists( $config_file ) )
+			$config = parse_ini_file( $config_file );
+
+		self::$config = array_merge( $defaults, $config );
+
+	}
+
+
+	private function build_index() {
+
+		$index = array();
+		$articles = array();
+
+		$docs = $this->glob_files( 
+				sprintf( '*.%s', self::$config['docs_extension'] ), 
+				realpath( self::$config['docs'] ) 
+			);
+
+		foreach ( $docs as $doc ) {
+
+			$uri = str_replace( realpath( self::$config['docs'] ), '', $doc );
+			$uri_info = pathinfo( $uri );
+
+			$uri = trim( sprintf( 
+					'%s/%s',
+					trim( $uri_info['dirname'], '/' ),
+					$uri_info['filename']
+				), '/' );
+
+			$article = $this->filter( 
+					'index_item', 
+					array( 
+						'id' => md5( $doc ),
+						'dirname' => trim( $uri_info['dirname'], '/' ),
+						'slug' => $uri_info['filename'],
+						'uri' => $uri,
+						'file' => $doc,
+						'filemtime' => filemtime( $doc )
+					)
+				);
+
+			$articles[ $article['uri'] ] = $article;
+
+		}
+
+		$index = array( 
+				'index' => $articles, 
+				'timestamp' => time() 
+			);
+
+		// Store in cache
+		file_put_contents(
+			self::$root . '/cache/index.json', 
+			json_encode( $index )
+		);
+
+		return $index;
+
+	}
+
+
+	function config() {
+
+		return self::$config;
+
+	}
+
+
+	function index() {
+
+		static $index = array();
+
+		if ( ! empty( $index ) )
+			return $index['index'];
+
+		if ( file_exists( self::$root . '/cache/index.json' ) )
+			$index = json_decode( file_get_contents( self::$root . '/cache/index.json' ), true );
 		else
-			die('No config file found!');
+			$index = $this->build_index();
+
+		return $index['index'];
 
 	}
 
 
 	private function render() {
 
-		if ( ! isset( self::$config['home'] ) )
-			self::$config['home'] = dirname( $_SERVER['SCRIPT_NAME'] );
+		// Get the request relative to the document root
+		$request = str_replace( 
+				dirname( $_SERVER['DOCUMENT_URI'] ), 
+				'', 
+				$_SERVER['REQUEST_URI']
+			);
 
-		$docs = $this->glob_files( self::$config['docs_extension'], realpath( self::$config['docs'] ) );
+		$parsed = parse_url( $request );
 
-		// Parse docs
-		foreach ( $docs as $doc )
-			$this->articles[] = $this->filter( 'parse_document', array( 
-					'file' => $doc,
-					'uri' => str_replace( realpath( self::$config['docs'] ), '', dirname( $doc ) ),
-					'slug' => str_replace( 'index', '', array_shift( explode( '.', basename( $doc ) ) ) ),
-					'template' => 'template.html',
-					'content' => file_get_contents( $doc ),
-					'filemtime' => filemtime( $doc ),
-					'id' => md5( $doc ),
-					'config' => self::$config
-				) );
+		$request = trim( $parsed['path'], '/' );
 
-		// Render index pages
-		$this->filter( 'render', $this->articles );
+		$this->filter( 'render', $request );
 
 	}
 
 
 	private function load_plugins() {
 
-		if ( isset( self::$config['timezone'] ) )
-			date_default_timezone_set( self::$config['timezone'] );
+		$plugins = array();
 
 		// See which plugins are enabled in site config
-		$plugins_enabled = explode( ',', self::$config['plugins'] );
+		$plugins_enabled = self::$config['plugins'];
 
-		// Find all available plugins in the plugins folder
-		foreach ( $this->glob_files( '*.plugin.php', __DIR__ . '/plugins' ) as $plugin_file )
-			$plugins_available[ basename( $plugin_file, '.plugin.php' ) ] = $plugin_file;
-		
 		// Include enabled plugin files
-		foreach ( $plugins_enabled as $plugin_name )
-			if ( isset( $plugins_available[ trim( $plugin_name ) ] ) )
-				include( $plugins_available[ trim( $plugin_name ) ] );
+		foreach ( $plugins_enabled as $plugin_name ) {
+
+			$plugin_file = sprintf( 
+					'%1$s/plugins/%2$s/%2$s.plugin.php', 
+					self::$root, 
+					$plugin_name 
+				);
+
+			if ( file_exists( $plugin_file ) )
+				include $plugin_file;
+
+		}
 
 		// Autoload plugins
 		foreach ( get_declared_classes() as $class )
-			if ( is_subclass_of( $class, get_class( $this ) ) )
-				new $class();
+			if ( is_subclass_of( $class, 'orbiter_plugin' ) )
+				$plugins[] = new $class;
+
+		return $plugins;
 
 	}
 
@@ -143,6 +241,13 @@ class orbiter {
 		return $value;
 
 	}
+
+}
+
+
+class orbiter_plugin {
+
+	function __construct() {}
 
 }
 

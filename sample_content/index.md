@@ -1,5 +1,5 @@
 template = index.html
-nolist = true
+type = page
 
 
 # Hello World via Orbiter

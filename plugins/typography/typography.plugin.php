@@ -1,11 +1,13 @@
 <?php
 
-class typography extends orbiter {
+class typography extends orbiter_plugin {
 
 	public $typo;
 
 	function typography() {
 
+		return;
+		
 		if ( ! function_exists('mb_detect_encoding') )
 			return;
 

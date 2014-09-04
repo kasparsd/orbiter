@@ -1,6 +1,6 @@
 template = rss.xml  
 slug = rss
-nolist = true
+type = page
 
 
 # RSS Feed

@@ -3,16 +3,13 @@
 <channel>
         <title>RSS Title</title>
         <description>This is an example of an RSS feed</description>
-        
         {{#articles}}
-        {{^nolist}}
         <item>
                 <title>{{title}}</title>
-                <link>{{config.home}}/{{permalink}}</link>
-                <guid>{{config.home}}/#{{id}}</guid>
+                <link>{{orbiter.config.home}}/{{uri}}</link>
+                <guid>{{orbiter.config.home}}/{{uri}}</guid>
                 <pubDate>{{pubdate}}</pubDate>
         </item>
-        {{/nolist}}
         {{/articles}}
 </channel>
 </rss>

@@ -1,10 +1,11 @@
 <?php
 
-class parser_helpers extends orbiter {
+class parser_helpers extends orbiter_plugin {
 
 	function parser_helpers() {
 
 		orbiter::add_filter( 'parse_document', array( $this, 'img_to_relative' ), 60 );
+
 	}
 
 	function img_to_relative( $article ) {
