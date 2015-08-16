@@ -46,8 +46,8 @@ class render_default extends orbiter_plugin {
 
 	function http_headers( $article ) {
 
-		// Render Not Found
-		//header('HTTP/1.0 404 Not Found');
+		if ( '404' == $article['uri'] ) 
+			header( 'HTTP/1.0 404 Not Found' );
 
 		if ( ! isset( $article['template'] ) )
 			return $article;
