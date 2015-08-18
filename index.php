@@ -95,7 +95,7 @@ class orbiter {
 
 			$uri = trim( sprintf( 
 					'%s/%s',
-					trim( $uri_info['dirname'], '/' ),
+					trim( $uri_info['dirname'], '/\\' ),
 					$uri_info['filename']
 				), '/' );
 
