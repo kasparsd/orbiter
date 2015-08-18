@@ -95,7 +95,7 @@ class orbiter {
 
 			$uri = trim( sprintf( 
 					'%s/%s',
-					trim( $uri_info['dirname'], '/' ),
+					trim( $uri_info['dirname'], '/\\' ),
 					$uri_info['filename']
 				), '/' );
 
@@ -103,7 +103,7 @@ class orbiter {
 					'index_item', 
 					array( 
 						'id' => md5( $doc ),
-						'dirname' => trim( $uri_info['dirname'], '/' ),
+						'dirname' => trim( $uri_info['dirname'], '/\\' ),
 						'slug' => $uri_info['filename'],
 						'uri' => $uri,
 						'file' => $doc,
@@ -166,7 +166,7 @@ class orbiter {
 
 		$parsed = parse_url( $request );
 
-		$request = trim( $parsed['path'], '/' );
+		$request = trim( $parsed['path'], '/\\' );
 
 		$this->filter( 'render', $request );
 

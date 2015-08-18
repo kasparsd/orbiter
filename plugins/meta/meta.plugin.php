@@ -41,7 +41,7 @@ class meta extends orbiter_plugin {
 					'%s/%s', 
 					$article['dirname'], 
 					$meta['slug'] 
-				), '/' );
+				), '/\\' );
 			
 		}
 
