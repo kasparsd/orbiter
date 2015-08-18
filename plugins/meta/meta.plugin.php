@@ -16,7 +16,7 @@ class meta extends orbiter_plugin {
 			$article['content'] = file_get_contents( $article['file'] );
 
 		// Meta must be seperated with two new lines
-		$ini = explode( PHP_EOL.PHP_EOL, $article['content'], 2 );
+		$ini = explode( "\n\n", $article['content'], 2 );
 		
 		if ( count( $ini ) !== 2 )
 			return $article;
